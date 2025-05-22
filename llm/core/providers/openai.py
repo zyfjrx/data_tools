@@ -68,7 +68,6 @@ class OpenAIClient:
         return result
 
     def chat(self, prompt):
-        messages = []
         if isinstance(prompt, list):
             messages =  self._convert_json(prompt)
         else:
