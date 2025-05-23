@@ -83,17 +83,18 @@ class LLMClient:
 
     def get_response_with_cot(self, prompt, options=None):
         llm_res = self.chat(prompt, options)
-        answer = getattr(llm_res, "text", "") or ""
+        answer = llm_res.get("text", "")
+        response = llm_res.get("response", "")
         cot = ""
         if (answer and answer.startswith("<think>")) or answer.startswith("<thinking>"):
             cot = extract_think_chain(answer)
             answer = extract_answer(answer)
         elif (
-                len(llm_res.response.choices) > 0
-                and getattr(llm_res.response.body.choices[0].message, "reasoning_content", None)
+                len(response.choices) > 0
+                and getattr(response.choices[0].message, "reasoning_content", None)
         ):
-            cot = llm_res.response.choices[0].message.reasoning_content or ""
-            answer = llm_res.response.choices[0].message.content or ""
+            cot = response.choices[0].message.reasoning_content or ""
+            answer = response.choices[0].message.content or ""
         if answer.startswith("\n\n"):
             answer = answer[2:]
         if cot.endswith("\n\n"):

@@ -53,3 +53,28 @@ def extract_answer(text):
             parts_after = parts_before[1].split(end)
             return (parts_before[0].strip() + ' ' + parts_after[1].strip()).strip()
     return text
+
+
+def process_questions(datas):
+    # 获取第一个对象中的 content 和 questions
+    result = []
+    for id , data in enumerate(datas):
+        content = data['content']
+        questions = data['questions']
+        # 创建结果列表
+        # 为每个问题创建新的对象
+        for question in questions:
+            new_obj = {
+                'contentid': id,
+                'content': content,
+                'question': question
+            }
+            result.append(new_obj)
+    return result
+if __name__ == '__main__':
+    with open("/home/bmh/data_tools/data/question.json",'r', encoding='utf-8') as f:
+        datas = json.load(f)
+    result = process_questions(datas)
+    with open('/home/bmh/data_tools/data/processed_questions.json', 'w', encoding='utf-8') as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+    print(result)
