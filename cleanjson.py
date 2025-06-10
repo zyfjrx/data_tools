@@ -11,6 +11,10 @@ def replace_optimized_thought(json_data):
             item['output'] = item['output'].replace("**Optimized Chain of Thought:**  \n\n", "")
             item['output'] = item['output'].replace("**Optimized Chain of Thought:**  \n", "")
             item['output'] = item['output'].replace("**Optimized Chain of Thought:**", "")
+            item['output'] = item['output'].replace("### Optimized Chain of Thought:\n\n", "")
+            item['output'] = item['output'].replace("### Optimized Chain of Thought\n\n", "")
+            item['output'] = item['output'].replace("### Optimized Chain of Thought:  \n", "")
+            item['output'] = item['output'].replace("### Optimized Chain of Thought:", "")
             item['output'] = item['output'].replace("**Answer:**", "")
             item['output'] = item['output'].replace("**Answer:**  \n", "")
             # item['output'] = item['output'].replace("### Answer:\n\n", "")
@@ -18,7 +22,8 @@ def replace_optimized_thought(json_data):
 
 
 # 处理JSON数据
-with open("/Users/zhangyf/Documents/宠物数据/datasets/pet-diseases-alpaca.json", "r", encoding="utf-8") as f:
+
+with open("/Users/zhangyf/PycharmProjects/data_tools/merged_output.json", "r", encoding="utf-8") as f:
     json_data = json.load(f)
 processed_data = replace_optimized_thought(json_data)
 
@@ -26,5 +31,5 @@ processed_data = replace_optimized_thought(json_data)
 # print(json.dumps(processed_data, indent=2))
 
 # 可选：将处理后的数据保存到文件
-with open('pet-breeds-alpaca.json', 'w', encoding='utf-8') as f:
+with open('pet_datasets.json', 'w', encoding='utf-8') as f:
     json.dump(processed_data, f, indent=2, ensure_ascii=False)
